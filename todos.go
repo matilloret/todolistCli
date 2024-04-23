@@ -17,7 +17,7 @@ type Item struct {
 // El usuario tiene la capacidad de crear varias tareas lo que deberia hacer es crear un arreglo
 type Todos []Item
 
-func (t *Todos) Add(titutlo string) {
+func (t *Todos) Add(titulo string) {
 	todo := Item{
 		Titulo:       titulo,
 		Done:         false,
@@ -43,4 +43,22 @@ func (t *Todos) Complete(index int) error {
 	ls[index-1].Done = true
 
 	return nil
+}
+
+// tarea: hacer la funcionalidad delete
+func (t *Todos) Delete(index int) error {
+	ls := *t
+	if index <= 0 || index > len(ls) {
+		return errors.New("Index invalido")
+	}
+
+	//eliminar
+	*t = append(ls[:index-1], ls[index-1:]...)
+
+	return nil
+}
+
+// leer el json o cargar
+func (t *Todos) Load(filename string) error {
+
 }
