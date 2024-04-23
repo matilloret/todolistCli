@@ -1,7 +1,9 @@
 package todos
 
 import (
+	"encoding/json"
 	"errors"
+	"os"
 	"time"
 )
 
@@ -60,5 +62,23 @@ func (t *Todos) Delete(index int) error {
 
 // leer el json o cargar
 func (t *Todos) Load(filename string) error {
+	file, err := os.ReadFile(filename)
+	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			return nil
+		}
+		return err
+	}
+
+	// comprobar si el archivo esta vacio
+	if len(file) == 0 {
+		return err
+	}
+
+	err = json.Unmarshal(file, t)
+	if err != nil {
+		return errors.New("deserializacion invalida")
+	}
+	return nil
 
 }

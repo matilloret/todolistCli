@@ -1,6 +1,12 @@
 package main
 
-import "flag"
+import (
+	"flag"
+	"fmt"
+	"os"
+
+	todos "github.com/matilloret/todolistCli"
+)
 
 // inicializar mediante una constante el JSON
 const (
@@ -21,4 +27,14 @@ func main() {
 	del := flag.Int("delete", 0, "delete a todo")
 
 	list := flag.Bool("list", false, "list all todos")
+
+	// esta funcion analiza las banderas declaradas en el paquete flag
+	flag.Parse()
+
+	todoss := &todos.Todos{}
+	// esto carga el json
+	if err := todoss.Load(todoFile); err != nil {
+		fmt.Fprint(os.Stderr, err.Error())
+		os.Exit(1)
+	}
 }
