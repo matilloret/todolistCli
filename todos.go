@@ -10,7 +10,7 @@ import (
 // la funcionalidad que va a tener es representar a las tareas
 
 type Item struct {
-	Titutlo      string
+	Titulo       string
 	Done         bool
 	Created_at   time.Time
 	Completed_at time.Time
@@ -83,8 +83,8 @@ func (t *Todos) Load(filename string) error {
 
 }
 
-func (t *Todos) Scored(filename string) error {
-	data, err := json.Marshal(t)
+func (t *Todos) Store(filename string) error {
+	data, err := json.MarshalIndent(t, "", "")
 	if err != nil {
 		return err
 	}
